@@ -1,4 +1,4 @@
-package com.gitbub.joesta.cruddemo;
+package com.github.joesta.cruddemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

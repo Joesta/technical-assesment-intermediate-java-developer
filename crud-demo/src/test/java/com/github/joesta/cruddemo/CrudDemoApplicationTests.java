@@ -1,4 +1,4 @@
-package com.gitbub.joesta.cruddemo;
+package com.github.joesta.cruddemo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
