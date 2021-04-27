@@ -19,11 +19,11 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public Customer saveCustomer(Customer customer) throws CustomerException {
-        log.info("insert(): inserting customer: " + customer.getCustomerNumber() + " from CustomerService");
+        log.info("saveCustomer(): inserting customer: " + customer.getCustomerNumber() + " from CustomerService");
         if (customerRepository.existsById(customer.getCustomerNumber()))
             throw new CustomerException("Customer already exist");
 
-        return customerRepository.save(customer);
+        return customerRepository.insert(customer);
     }
 
     public Optional<Customer> findByCustomerNumber(String id) {

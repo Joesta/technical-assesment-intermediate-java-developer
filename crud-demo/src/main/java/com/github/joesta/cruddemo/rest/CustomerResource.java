@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerResource {
 
     @Autowired
-    private CustomerService service;
+    private CustomerService customerService;
 
     @PutMapping("/")
     public void saveCustomer(@RequestBody Customer customer) throws CustomerException {
-        service.saveCustomer(customer);
+        customerService.saveCustomer(customer);
     }
 }
