@@ -29,7 +29,7 @@ public class CustomerService {
     }
 
 
-    public Customer updateCustomer(@RequestBody Customer customer) {
+    public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
