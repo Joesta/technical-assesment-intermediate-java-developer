@@ -22,4 +22,9 @@ public class CustomerResource {
     public Customer updateCustomer(@RequestBody Customer customer) {
         return customerService.updateCustomer(customer);
     }
+
+    @DeleteMapping(path = "/{customernumber}", produces = "application/json")
+    public void deleteCustomer(@PathVariable( name = "customernumber") String customerNumber) {
+        customerService.deleteCustomer(customerNumber);
+    }
 }

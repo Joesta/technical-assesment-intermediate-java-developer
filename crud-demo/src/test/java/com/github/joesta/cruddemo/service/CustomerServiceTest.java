@@ -11,21 +11,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerServiceTest extends CrudDemoApplicationTests {
 
+    private final Log log = LogFactory.getLog(this.getClass().getName());
     @Autowired
     private CustomerService customerService;
-
     private Customer customer;
-
     private List<Customer> customers;
-
-    private final Log log = LogFactory.getLog(this.getClass().getName());
 
     @Before
     public void setUp() {
@@ -57,9 +53,16 @@ public class CustomerServiceTest extends CrudDemoApplicationTests {
         targetCustomer.setFirstName("John");
         targetCustomer.setLastName("Doe");
 
-        Customer expectedCustomer = customerService.updateCustomer(targetCustomer); // return updated customer
+        Customer expectedCustomer = customerService.updateCustomer(targetCustomer);
         log.info("updated customer object " + expectedCustomer);
         Assertions.assertNotNull(expectedCustomer);
         Assertions.assertNotEquals(expectedCustomer, customer);
+    }
+
+    @Test
+    public void givenTheCustomerNumberShouldDeleteTheAssociatedCustomer() {
+        log.info("givenTheCustomerNumberShouldDeleteTheAssociatedCustomer() running in CustomerServiceTest");
+        Optional<Customer> deletedCustomer = customerService.deleteCustomer(customer.getCustomerNumber());
+        Assertions.assertFalse(deletedCustomer.isPresent());
     }
 }

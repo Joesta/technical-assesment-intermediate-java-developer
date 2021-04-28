@@ -7,8 +7,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -20,6 +18,12 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    /**
+     *  create a new customer
+     * @param customer a customer to be created
+     * @return created customer
+     * @throws CustomerException Throws customerException if already exist
+     */
     public Customer saveCustomer(Customer customer) throws CustomerException {
         log.info("saveCustomer(): inserting customer: " + customer.getCustomerNumber() + " from CustomerService");
         if (customerRepository.existsById(customer.getCustomerNumber()))
@@ -28,16 +32,41 @@ public class CustomerService {
         return customerRepository.insert(customer);
     }
 
-
+    /**
+     *  Update a customer record
+     * @param customer A customer to update
+     * @return Updated customer
+     */
     public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    public Optional<Customer> findByCustomerNumber(String id) {
-        log.info("findById() running... getting user with customerNumber " + id);
-        return customerRepository.findById(id);
+    /**
+     *  delete a customer associated with the unique customer number
+     * @param customerNumber Unique customer number used as ID
+     * @return
+     */
+    public Optional<Customer> deleteCustomer(String customerNumber) {
+        Optional<Customer> targetCustomer = findByCustomerNumber(customerNumber);
+        if (targetCustomer.isPresent())
+            customerRepository.deleteById(customerNumber);
+        return targetCustomer;
+
     }
 
+    /**
+     *  find a customer associated with the unique customer number
+     * @param customerNumber customer number
+     * @return customer that is found with the customer number
+     */
+    public Optional<Customer> findByCustomerNumber(String customerNumber) {
+        log.info("findById() running... getting user with customerNumber " + customerNumber);
+        return customerRepository.findById(customerNumber);
+    }
+
+    /**
+     *  deletes all customers
+     */
     public void deleteAll() {
         log.info("deleteAll(): in customer service");
         customerRepository.deleteAll();
