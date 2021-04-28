@@ -17,4 +17,9 @@ public class CustomerResource {
     public void saveCustomer(@RequestBody Customer customer) throws CustomerException {
         customerService.saveCustomer(customer);
     }
+
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        return customerService.updateCustomer(customer);
+    }
 }

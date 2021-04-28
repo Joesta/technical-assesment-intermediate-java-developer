@@ -7,6 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -24,6 +26,11 @@ public class CustomerService {
             throw new CustomerException("Customer already exist");
 
         return customerRepository.insert(customer);
+    }
+
+
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        return customerRepository.save(customer);
     }
 
     public Optional<Customer> findByCustomerNumber(String id) {

@@ -49,4 +49,17 @@ public class CustomerServiceTest extends CrudDemoApplicationTests {
         Assertions.assertTrue(c.isPresent());
         Assertions.assertEquals(customer.getCustomerNumber(), c.get().getCustomerNumber());
     }
+
+    @Test
+    public void givenCustomerToUpdateThenShouldReturnSavedCustomer() {
+        log.info("givenCustomerToUpdateThenShouldReturnSavedCustomer() running in CustomerServiceTest");
+        Customer targetCustomer = CustomerBuilder.buildACustomer(1);
+        targetCustomer.setFirstName("John");
+        targetCustomer.setLastName("Doe");
+
+        Customer expectedCustomer = customerService.updateCustomer(targetCustomer); // return updated customer
+        log.info("updated customer object " + expectedCustomer);
+        Assertions.assertNotNull(expectedCustomer);
+        Assertions.assertNotEquals(expectedCustomer, customer);
+    }
 }

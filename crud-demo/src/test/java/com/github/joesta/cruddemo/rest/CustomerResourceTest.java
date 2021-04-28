@@ -5,6 +5,7 @@ import com.github.joesta.cruddemo.CrudDemoApplicationTests;
 import com.github.joesta.cruddemo.models.Customer;
 import com.github.joesta.cruddemo.models.CustomerBuilder;
 import com.github.joesta.cruddemo.repository.CustomerRepository;
+import com.github.joesta.cruddemo.service.CustomerService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,6 +41,9 @@ public class CustomerResourceTest extends CrudDemoApplicationTests {
 
     @MockBean
     private CustomerRepository customerRepository;
+
+    @MockBean
+    private CustomerService customerService;
 
     @Autowired
     private WebApplicationContext context;
@@ -69,5 +74,17 @@ public class CustomerResourceTest extends CrudDemoApplicationTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    public void postMappingForCustomer() throws Exception {
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+        this.mvc.perform(post("/customer/")
+        .content(objectMapper.writeValueAsString(customer))
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+        verify(customerService, times(1)).updateCustomer(any(Customer.class));
     }
 }
