@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -52,6 +53,8 @@ public class CustomerResourceTest extends CrudDemoApplicationTests {
     private ObjectMapper objectMapper;
 
     private Customer customer;
+
+    private List<Customer> customers;
 
     @Before
     public void setUp() {
@@ -106,5 +109,18 @@ public class CustomerResourceTest extends CrudDemoApplicationTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    public void getMappingForAllCustomers() throws Exception {
+        when(customerService.findAllCustomers()).thenReturn(customers);
+        this.mvc.perform(get("/customer/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        verify(customerService).findAllCustomers();
+        verify(customerService, times(1)).findAllCustomers();
     }
 }

@@ -6,6 +6,8 @@ import com.github.joesta.cruddemo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/customer")
 public class CustomerResource {
@@ -31,5 +33,10 @@ public class CustomerResource {
     @GetMapping(path = "/{customernumber}", produces = "application/json")
     public void getCustomer(@PathVariable( name = "customernumber") String customerNumber) {
         customerService.findByCustomerNumber(customerNumber);
+    }
+
+    @GetMapping(path = "/", produces = "application/json")
+    public List<Customer> findAllCustomers() {
+        return customerService.findAllCustomers();
     }
 }

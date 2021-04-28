@@ -32,7 +32,7 @@ public class CustomerBuilder {
     public static List<Customer> buildCustomers(final int noOfCustomers) {
         List<Customer> customers = new ArrayList<>();
         for(int i = 0; i < noOfCustomers; i ++) {
-            customers.add(buildACustomer(noOfCustomers));
+            customers.add(buildACustomer(i));
         }
 
         return customers;

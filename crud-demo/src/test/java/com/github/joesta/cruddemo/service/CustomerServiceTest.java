@@ -4,6 +4,7 @@ import com.github.joesta.cruddemo.CrudDemoApplicationTests;
 import com.github.joesta.cruddemo.exceptions.CustomerException;
 import com.github.joesta.cruddemo.models.Customer;
 import com.github.joesta.cruddemo.models.CustomerBuilder;
+import com.github.joesta.cruddemo.repository.CustomerRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -18,9 +19,15 @@ import java.util.Optional;
 public class CustomerServiceTest extends CrudDemoApplicationTests {
 
     private final Log log = LogFactory.getLog(this.getClass().getName());
+
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
     private Customer customer;
+
     private List<Customer> customers;
 
     @Before
@@ -74,6 +81,16 @@ public class CustomerServiceTest extends CrudDemoApplicationTests {
         Optional<Customer> foundCustomer =  customerService.findByCustomerNumber(customer.getCustomerNumber());
         log.info(foundCustomer);
         Assertions.assertTrue(foundCustomer.isPresent());
+    }
+
+    @Test
+    public void shouldReturnAListOfCustomers() {
+        customerRepository.saveAll(customers);
+        log.info("shouldReturnAListOfCustomers() running in CustomerServiceTest");
+        List<Customer> customers = customerService.findAllCustomers();
+        log.info(customers);
+        Assertions.assertNotNull(customers);
+        Assertions.assertNotEquals(0,customers.size());
     }
 
 }
