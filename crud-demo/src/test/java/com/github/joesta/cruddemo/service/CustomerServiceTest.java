@@ -65,4 +65,15 @@ public class CustomerServiceTest extends CrudDemoApplicationTests {
         Optional<Customer> deletedCustomer = customerService.deleteCustomer(customer.getCustomerNumber());
         Assertions.assertFalse(deletedCustomer.isPresent());
     }
+
+    @Test
+    public void givenCustomerNumberToFindShouldReturnCustomer() throws CustomerException {
+        Customer customer = CustomerBuilder.buildACustomer(1);
+        customerService.saveCustomer(customer);
+        log.info("givenCustomerNumberToFindShouldReturnCustomer() running in CustomerServiceTest");
+        Optional<Customer> foundCustomer =  customerService.findByCustomerNumber(customer.getCustomerNumber());
+        log.info(foundCustomer);
+        Assertions.assertTrue(foundCustomer.isPresent());
+    }
+
 }

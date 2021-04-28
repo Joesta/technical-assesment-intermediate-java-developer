@@ -97,4 +97,14 @@ public class CustomerResourceTest extends CrudDemoApplicationTests {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    public void findMappingForCustomer() throws Exception {
+        when(customerService.findByCustomerNumber(customer.getCustomerNumber())).thenReturn(Optional.of(customer));
+        this.mvc.perform(get("/customer/" + customer.getCustomerNumber())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

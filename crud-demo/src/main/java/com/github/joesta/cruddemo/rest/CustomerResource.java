@@ -27,4 +27,9 @@ public class CustomerResource {
     public void deleteCustomer(@PathVariable( name = "customernumber") String customerNumber) {
         customerService.deleteCustomer(customerNumber);
     }
+
+    @GetMapping(path = "/{customernumber}", produces = "application/json")
+    public void getCustomer(@PathVariable( name = "customernumber") String customerNumber) {
+        customerService.findByCustomerNumber(customerNumber);
+    }
 }

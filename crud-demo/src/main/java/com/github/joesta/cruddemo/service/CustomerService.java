@@ -42,19 +42,6 @@ public class CustomerService {
     }
 
     /**
-     *  delete a customer associated with the unique customer number
-     * @param customerNumber Unique customer number used as ID
-     * @return
-     */
-    public Optional<Customer> deleteCustomer(String customerNumber) {
-        Optional<Customer> targetCustomer = findByCustomerNumber(customerNumber);
-        if (targetCustomer.isPresent())
-            customerRepository.deleteById(customerNumber);
-        return targetCustomer;
-
-    }
-
-    /**
      *  find a customer associated with the unique customer number
      * @param customerNumber customer number
      * @return customer that is found with the customer number
@@ -62,6 +49,19 @@ public class CustomerService {
     public Optional<Customer> findByCustomerNumber(String customerNumber) {
         log.info("findById() running... getting user with customerNumber " + customerNumber);
         return customerRepository.findById(customerNumber);
+    }
+
+    /**
+     *  delete a customer associated with the unique customer number
+     * @param customerNumber Unique customer number used as ID
+     * @return deleted customer
+     */
+    public Optional<Customer> deleteCustomer(String customerNumber) {
+        Optional<Customer> targetCustomer = customerRepository.findById(customerNumber);
+        if (targetCustomer.isPresent())
+            customerRepository.deleteById(customerNumber);
+        return targetCustomer;
+
     }
 
     /**
