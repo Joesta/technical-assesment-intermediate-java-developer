@@ -7,14 +7,16 @@ import com.github.joesta.cruddemo.repository.CustomerRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = {"customer"})
 public class CustomerService {
 
     private final Log log = LogFactory.getLog(this.getClass().getName());
@@ -50,6 +52,7 @@ public class CustomerService {
      * @param customerNumber customer number
      * @return customer that is found with the customer number
      */
+    @Cacheable(key = "#customerNumber")
     public Optional<Customer> findByCustomerNumber(String customerNumber) {
         log.info("findById() running... getting user with customerNumber " + customerNumber);
         Optional<Customer> optionalCustomer = customerRepository.findById(customerNumber);
@@ -80,6 +83,7 @@ public class CustomerService {
      *  get all customers
      * @return a list of customers
      */
+    @Cacheable
     public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
     }
