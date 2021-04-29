@@ -1,7 +1,7 @@
 package com.github.joesta.cruddemo.service;
 
 import com.github.joesta.cruddemo.exceptions.CustomerException;
-import com.github.joesta.cruddemo.exceptions.ResponseStatusException;
+import com.github.joesta.cruddemo.exceptions.UnauthorizedException;
 import com.github.joesta.cruddemo.models.Customer;
 import com.github.joesta.cruddemo.repository.CustomerRepository;
 import org.apache.commons.logging.Log;
@@ -58,7 +58,7 @@ public class CustomerService {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerNumber);
         if (optionalCustomer.isPresent()) {
             if (!optionalCustomer.get().isStatus()) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+                throw new UnauthorizedException(HttpStatus.UNAUTHORIZED);
             }
             return optionalCustomer;
         }

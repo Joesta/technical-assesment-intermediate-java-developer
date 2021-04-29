@@ -102,7 +102,7 @@ public class CustomerResourceTest extends CrudDemoApplicationTests {
     }
 
     @Test
-    public void findMappingForCustomer() throws Exception {
+    public void getMappingForCustomer() throws Exception {
         when(customerService.findByCustomerNumber(customer.getCustomerNumber())).thenReturn(Optional.of(customer));
         this.mvc.perform(get("/customer/" + customer.getCustomerNumber())
                 .contentType(MediaType.APPLICATION_JSON)

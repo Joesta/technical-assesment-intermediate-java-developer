@@ -2,7 +2,7 @@ package com.github.joesta.cruddemo.service;
 
 import com.github.joesta.cruddemo.CrudDemoApplicationTests;
 import com.github.joesta.cruddemo.exceptions.CustomerException;
-import com.github.joesta.cruddemo.exceptions.ResponseStatusException;
+import com.github.joesta.cruddemo.exceptions.UnauthorizedException;
 import com.github.joesta.cruddemo.models.Customer;
 import com.github.joesta.cruddemo.models.CustomerBuilder;
 import com.github.joesta.cruddemo.repository.CustomerRepository;
@@ -85,13 +85,13 @@ public class CustomerServiceTest extends CrudDemoApplicationTests {
         Assertions.assertTrue(foundCustomer.isPresent());
     }
 
-    @Test(expected = ResponseStatusException.class)
+    @Test(expected = UnauthorizedException.class)
     public void shouldThrowUnAuthorizedExceptionIfCustomerStatusIsFalse() throws CustomerException {
         Customer customer = CustomerBuilder.buildACustomer(1);
         customer.setStatus(false);
         customerService.saveCustomer(customer);
         Optional<Customer> optionalCustomer = customerService.findByCustomerNumber(customer.getCustomerNumber());
-        optionalCustomer.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        optionalCustomer.orElseThrow(() -> new UnauthorizedException(HttpStatus.UNAUTHORIZED));
     }
 
     @Test
