@@ -4,7 +4,6 @@ import com.github.joesta.cruddemo.exceptions.CustomerException;
 import com.github.joesta.cruddemo.models.Customer;
 import com.github.joesta.cruddemo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +27,12 @@ public class CustomerResource {
     }
 
     @DeleteMapping(path = "/{customernumber}", produces = "application/json")
-    public Optional<Customer> deleteCustomer(@PathVariable( name = "customernumber") String customerNumber) {
+    public Optional<Customer> deleteCustomer(@PathVariable(name = "customernumber") String customerNumber) {
         return customerService.deleteCustomer(customerNumber);
     }
 
     @GetMapping(path = "/{customernumber}", produces = "application/json")
-    public Optional<Customer> findByCustomerNumber(@PathVariable( name = "customernumber") String customerNumber) {
+    public Optional<Customer> findByCustomerNumber(@PathVariable(name = "customernumber") String customerNumber) {
         return customerService.findByCustomerNumber(customerNumber);
     }
 
