@@ -2,6 +2,7 @@ package com.github.joesta.cruddemo.service;
 
 import com.github.joesta.cruddemo.CrudDemoApplicationTests;
 import com.github.joesta.cruddemo.exceptions.CustomerException;
+import com.github.joesta.cruddemo.exceptions.ResponseStatusException;
 import com.github.joesta.cruddemo.models.Customer;
 import com.github.joesta.cruddemo.models.CustomerBuilder;
 import com.github.joesta.cruddemo.repository.CustomerRepository;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,6 +83,15 @@ public class CustomerServiceTest extends CrudDemoApplicationTests {
         Optional<Customer> foundCustomer =  customerService.findByCustomerNumber(customer.getCustomerNumber());
         log.info(foundCustomer);
         Assertions.assertTrue(foundCustomer.isPresent());
+    }
+
+    @Test(expected = ResponseStatusException.class)
+    public void shouldThrowUnAuthorizedExceptionIfCustomerStatusIsFalse() throws CustomerException {
+        Customer customer = CustomerBuilder.buildACustomer(1);
+        customer.setStatus(false);
+        customerService.saveCustomer(customer);
+        Optional<Customer> optionalCustomer = customerService.findByCustomerNumber(customer.getCustomerNumber());
+        optionalCustomer.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
     }
 
     @Test
